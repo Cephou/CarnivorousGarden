@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 
 @Named(value = "mainCtrl")
 @ViewScoped

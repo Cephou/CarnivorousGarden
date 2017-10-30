@@ -1,3 +1,4 @@
 /build/
 /nbproject/
 /dist/
+/web/WEB-INF/glassfish-resources.xml

@@ -4,13 +4,33 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta charset="utf-8" />
+        <title>Connexion</title>
+        <link type="text/css" rel="stylesheet" href="form.css" />
     </head>
     <body>
-        <div>TODO write content</div>
+        <form method="post" action="connexion">
+            <fieldset>
+                <legend>Connexion</legend>
+                <p>Vous pouvez vous connecter via ce formulaire.</p>
+
+                <label for="nom">Login<span class="requis">*</span></label>
+                <input type="email" id="email" name="email" size="20" maxlength="60" />
+                <br />
+
+                <label for="motdepasse">Mot de passe <span class="requis">*</span></label>
+                <input type="password" id="motdepasse" name="motdepasse" value="" size="20" maxlength="20" />
+                <br />
+
+                <input type="submit" value="Connexion" />
+                <br />
+                
+            </fieldset>
+        </form>
     </body>
 </html>

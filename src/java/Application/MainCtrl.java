@@ -18,6 +18,8 @@ public class MainCtrl implements Serializable {
 
     @EJB
     private PlantDAO plantDAO;
+    @EJB
+    private UserDAO userDAO;
     
     private Plant newPlant;
 
@@ -25,6 +27,10 @@ public class MainCtrl implements Serializable {
         newPlant = new Plant();
     }
     
+    public List<User> getUsers() {
+        return userDAO.allUsers();
+    }
+        
     public List<Plant> getPlants() {
         return plantDAO.allPlants();
     }

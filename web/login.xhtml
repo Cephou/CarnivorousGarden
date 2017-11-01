@@ -15,9 +15,11 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:form>
-            <p:inputText value="#{userCtrl.authUser.nameUser}" />
-            <p:inputText value="#{userCtrl.authUser.passwordUser}" />
+            <p:inputText placeholder="Login" value="#{userCtrl.authUser.nameUser}" />
+            <p:inputText placeholder="Password" type="password" value="#{userCtrl.authUser.passwordUser}" />
             <h:commandButton value="Login" action="#{userCtrl.login()}" />
         </h:form>
+        <p:inputText value="#{userCtrl.loginMessage}" />
+
     </h:body>
 </html>

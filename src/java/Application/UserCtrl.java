@@ -14,13 +14,22 @@ public class UserCtrl implements Serializable {
     @EJB
     private UserDAO userDAO;
     private User authUser;
+    private String loginMessage;
     
     public UserCtrl() {
         authUser = new User();
+        loginMessage = "Test";
     }
     
-    public void login() {
+    public String login() {
         List<User> resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
+        if(resultLogin.isEmpty()) { // If nothing was found in database ...
+            loginMessage = "Mauvais couple identifiant mot de passe";
+            return "login.xhtml";
+        } else { // The user is good so we connect it !
+            loginMessage = "Connecté";
+            return "admin.xhtml";
+        }
     }
 
     public UserDAO getUserDAO() {
@@ -38,5 +47,15 @@ public class UserCtrl implements Serializable {
     public void setAuthUser(User authUser) {
         this.authUser = authUser;
     }
+
+    public String getLoginMessage() {
+        return loginMessage;
+    }
+
+    public void setLoginMessage(String loginMessage) {
+        this.loginMessage = loginMessage;
+    }
+    
+    
 
 }

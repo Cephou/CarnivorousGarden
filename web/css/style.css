@@ -17,3 +17,11 @@ body {
 .main {
   flex: 1 0 auto;
 }
+
+.input-field.col label {
+    left: 0px;
+}
+
+.page-footer {
+    padding-top: 0px;
+}

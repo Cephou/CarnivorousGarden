@@ -17,19 +17,19 @@
             <div class="container">
 
                 <h:form>
-                       <div class="input-field col s6">
-     <p:inputText id="name_user" value="#{userCtrl.authUser.nameUser}" />
-                    <label for="name_user">Login</label>
-                       </div>
-        <div class="input-field col s6">
-
-                    <p:inputText id="password_user" type="password" value="#{userCtrl.authUser.passwordUser}" />
-                    <label for="password_user">Password</label>
-        </div>
-                    <h:commandButton value="Login" action="#{userCtrl.login()}" />
+                    <div class="input-field col s12">
+                        <p:inputText id="name_user" value="#{userCtrl.authUser.nameUser}" />
+                        <label for="name_user">Login</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <p:inputText id="password_user" type="password" value="#{userCtrl.authUser.passwordUser}" />
+                        <label for="password_user">Password</label>
+                    </div>
+                    <p:commandButton ajax="false" value="Login" class="waves-effect waves-light btn" action="#{userCtrl.login()}" />
+                    
+                    <h:outputText value="#{userCtrl.loginMessage}"/>
+                
                 </h:form>
-
-                <p:inputText value="#{userCtrl.loginMessage}" />
                 
             </div>
         

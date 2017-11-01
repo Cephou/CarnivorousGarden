@@ -24,11 +24,11 @@ public class UserCtrl implements Serializable {
     public String login() {
         List<User> resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
         if(resultLogin.isEmpty()) { // If nothing was found in database ...
-            loginMessage = "Mauvais couple identifiant mot de passe";
-            return "login.xhtml";
+            loginMessage = "Bad username or password";
+            return null;
         } else { // The user is good so we connect it !
             loginMessage = "Connecté";
-            return "admin.xhtml";
+            return "dashboard";
         }
     }
 

@@ -14,7 +14,10 @@ and open the template in the editor.
         <link type="text/css" rel="stylesheet" href="form.css" />
     </head>
     <body>
-        <form method="post" action="connexion">
+        <h:form>
+            <p:inputText value="#{userCtrl.authUser.nameUser}" />
+            <p:inputText value="#{userCtrl.authUser.passwordUser}" />
+        </h:form>
             <fieldset>
                 <legend>Connexion</legend>
                 <p>Vous pouvez vous connecter via ce formulaire.</p>

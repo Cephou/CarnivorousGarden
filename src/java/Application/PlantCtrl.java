@@ -21,7 +21,6 @@ public class PlantCtrl implements Serializable {
         newPlant = new Plant();
     }
     
-        
     public List<Plant> getPlants() {
         return plantDAO.allPlants();
     }

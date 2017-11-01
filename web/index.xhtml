@@ -8,7 +8,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <p:dataList value="#{mainCtrl.plants}" var="plant">
+        <p:dataList value="#{plantCtrl.plants}" var="plant">
             <f:facet name="header">
                     Les Plantes
             </f:facet>
@@ -16,9 +16,9 @@
         </p:dataList> 
         
         <h:form>
-            Genre : <p:inputText value="#{mainCtrl.newPlant.genusPlant}" /><br/>
-            Espèce : <p:inputText value="#{mainCtrl.newPlant.speciePlant}" /><br/>
-            <h:commandButton value="Sauver" action="#{mainCtrl.addPlant()}" />
+            Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
+            Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
+            <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
         </h:form>
     </h:body>
 </html>

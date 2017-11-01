@@ -13,14 +13,25 @@
         <ui:include src="/inc/navigation.html" />
         
         <div class="main">
+            
+            <div class="container">
 
-            <h:form>
-                <p:inputText placeholder="Login" value="#{userCtrl.authUser.nameUser}" />
-                <p:inputText placeholder="Password" type="password" value="#{userCtrl.authUser.passwordUser}" />
-                <h:commandButton value="Login" action="#{userCtrl.login()}" />
-            </h:form>
+                <h:form>
+                       <div class="input-field col s6">
+     <p:inputText id="name_user" value="#{userCtrl.authUser.nameUser}" />
+                    <label for="name_user">Login</label>
+                       </div>
+        <div class="input-field col s6">
 
-            <p:inputText value="#{userCtrl.loginMessage}" />
+                    <p:inputText id="password_user" type="password" value="#{userCtrl.authUser.passwordUser}" />
+                    <label for="password_user">Password</label>
+        </div>
+                    <h:commandButton value="Login" action="#{userCtrl.login()}" />
+                </h:form>
+
+                <p:inputText value="#{userCtrl.loginMessage}" />
+                
+            </div>
         
         </div>
         

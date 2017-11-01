@@ -18,6 +18,10 @@ public class UserCtrl implements Serializable {
     public UserCtrl() {
         authUser = new User();
     }
+    
+    public void login() {
+        List<User> resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
+    }
 
     public UserDAO getUserDAO() {
         return userDAO;

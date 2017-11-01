@@ -21,5 +21,10 @@ public class UserDAO {
         Query query = em.createNamedQuery("User.findAll");
         return query.getResultList();
     }
+    
+    public List<User> getUserByNameAndPassword(String userName, String userPassword) {
+        Query query = em.createNamedQuery("User.findByNameAndPassword");
+        return query.getResultList();
+    }
 }
 

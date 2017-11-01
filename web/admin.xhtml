@@ -16,10 +16,11 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:form id="formulaire"> 
-            <p:datalist value="#{}" var="pc">
-                <f:facet name=""header">
-                         Administrateur 
-            </f:facet>
+            <p:dataList value="#{plantCtrl.plants}" var="plant">
+                <f:facet name="header">
+                    Administrateur 
+                </f:facet>
+            </p:dataList>
         </h:form>
     </h:body>
 </html>

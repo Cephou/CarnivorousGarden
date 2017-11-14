@@ -1,42 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
     <ui:include src="/inc/head.html" />
-    
     <h:body>
-        
         <ui:include src="/inc/navigation.html" />
-        
         <div class="main">
-            
-            <div class="container">
 
-                <h:form>
-                    <div class="input-field col s12">
-                        <p:inputText id="name_user" value="#{userCtrl.authUser.nameUser}" />
-                        <label for="name_user">Login</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <p:inputText id="password_user" type="password" value="#{userCtrl.authUser.passwordUser}" />
-                        <label for="password_user">Password</label>
-                    </div>
-                    <p:commandButton ajax="false" value="Login" class="waves-effect waves-light btn" action="#{userCtrl.login()}" />
-                    
-                    <h:outputText value="#{userCtrl.loginMessage}"/>
-                
-                </h:form>
-                
-            </div>
-        
+            <h:form id="loginForm">
+                <p:growl id="msg" showDetail="true" life="3000" />
+                <p:panel header="Login" style="width: 360px;">
+
+                    <h:panelGrid id="loginPanel" columns="2">
+
+                        <h:outputText value="Username" />
+
+                        <p:inputText id="username" value="#{userCtrl.authUser.nameUser}" ></p:inputText>
+
+                        <p:spacer></p:spacer>
+
+                        <p:message for="username" ></p:message>
+
+                        <h:outputText value="Password" />
+
+                        <p:password id="password" value="#{userCtrl.authUser.passwordUser}"  feedback="false"></p:password>
+
+                        <p:spacer></p:spacer>
+
+                        <p:message for="password"></p:message>
+
+                        <p:spacer></p:spacer>
+
+                        <p:commandButton action="#{userCtrl.login}" value="Login" update="loginForm" ajax="true"></p:commandButton>
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+            </h:form>
         </div>
-        
         <ui:include src="/inc/footer.html" />
         
     </h:body>
-    
+ 
 </html>

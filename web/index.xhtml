@@ -13,6 +13,50 @@
         <ui:include src="/inc/navigation.html" />
         
         <div class="main">
+            <p:dataTable id="basicDT" var="plant" value="#{plantCtrl.plants}">
+                <f:facet name="header">
+                    DataTable Integration
+                </f:facet>
+                <p:column headerText="Genus">
+                    <h:outputText value="#{plant.genusPlant}" />
+                </p:column>
+                <p:column headerText="Specie">
+                    <h:outputText value="#{plant.speciePlant}" />
+                </p:column>
+                <p:column headerText="Sub-Specie Plant">
+                    <h:outputText value="#{plant.subSpeciePlant}" />
+                </p:column>
+                <p:column headerText="Variety">
+                    <h:outputText value="#{plant.varietyPlant}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                     <p:commandButton update=":form:carDetail" oncomplete="PF('carOP').show('#{component.clientId}')" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{plant}" target="#{dtSelectionView.selectedCar}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <p:overlayPanel widgetVar="carOP" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="true">
+                <p:outputPanel id="carDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty dtSelectionView.selectedCar}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage name="demo/images/car/#{dtSelectionView.selectedCar.brand}-big.gif"/> 
+                        </f:facet>
+
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{dtSelectionView.selectedCar.id}" />
+
+                        <h:outputText value="Year" />
+                        <h:outputText value="#{dtSelectionView.selectedCar.year}" />
+
+                        <h:outputText value="Color:" />
+                        <h:outputText value="#{dtSelectionView.selectedCar.color}" style="color:#{dtSelectionView.selectedCar.color}"/>
+
+                        <h:outputText value="Price" />
+                        <h:outputText value="$#{dtSelectionView.selectedCar.price}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:overlayPanel>
             
             <p:dataList value="#{plantCtrl.plants}" var="plant">
                 <f:facet name="header">

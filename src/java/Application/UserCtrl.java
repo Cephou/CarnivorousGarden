@@ -3,6 +3,8 @@ package Application;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -23,12 +25,15 @@ public class UserCtrl implements Serializable {
     
     public String login() {
         List<User> resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
-        if(resultLogin.isEmpty()) { // If nothing was found in database ...
-            loginMessage = "Bad username or password";
-            return null;
-        } else { // The user is good so we connect it !
-            loginMessage = "Connecté";
+        if (!resultLogin.isEmpty()) {
             return "dashboard";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Invalid Login!",
+                    "Please Try Again!"));
+            return "login";
         }
     }
 

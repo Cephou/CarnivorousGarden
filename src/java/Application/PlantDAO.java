@@ -26,6 +26,17 @@ public class PlantDAO {
         return query.getResultList();
     }
     
+    public List<Plant> plantGenuses() {
+        Query query = em.createNamedQuery("Plant.getAllGenuses");
+        return query.getResultList();
+    }
+    
+    public List<Plant> getPlantsByGenus(String pgenus) {
+        Query query = em.createNamedQuery("Plant.getPlantsByGenus");
+        query.setParameter("genusPlant", pgenus);
+        return query.getResultList();
+    }
+    
     public void add(Plant p) {
         em.persist(p);
         em.flush();

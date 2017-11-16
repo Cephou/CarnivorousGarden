@@ -28,11 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p")
+    , @NamedQuery(name = "Plant.getAllGenuses", query = "SELECT DISTINCT p.genusPlant FROM Plant p ORDER BY p.genusPlant")
+    , @NamedQuery(name = "Plant.getPlantsByGenus", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant ORDER BY p.genusPlant")
     , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
     , @NamedQuery(name = "Plant.findByGenusPlant", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant")
     , @NamedQuery(name = "Plant.findBySpeciePlant", query = "SELECT p FROM Plant p WHERE p.speciePlant = :speciePlant")
     , @NamedQuery(name = "Plant.findBySubSpeciePlant", query = "SELECT p FROM Plant p WHERE p.subSpeciePlant = :subSpeciePlant")
-    , @NamedQuery(name = "Plant.findByVarietyPlant", query = "SELECT p FROM Plant p WHERE p.varietyPlant = :varietyPlant")})
+    , @NamedQuery(name = "Plant.findByVarietyPlant", query = "SELECT p FROM Plant p WHERE p.varietyPlant = :varietyPlant")
+    , @NamedQuery(name = "Plant.findByPricePlant", query = "SELECT p FROM Plant p WHERE p.pricePlant = :pricePlant")})
 public class Plant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,6 +60,10 @@ public class Plant implements Serializable {
     @Size(max = 255)
     @Column(name = "varietyPlant")
     private String varietyPlant;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "pricePlant")
+    private float pricePlant;
 
     public Plant() {
     }
@@ -65,10 +72,11 @@ public class Plant implements Serializable {
         this.idPlant = idPlant;
     }
 
-    public Plant(Integer idPlant, String genusPlant, String speciePlant) {
+    public Plant(Integer idPlant, String genusPlant, String speciePlant, float pricePlant) {
         this.idPlant = idPlant;
         this.genusPlant = genusPlant;
         this.speciePlant = speciePlant;
+        this.pricePlant = pricePlant;
     }
 
     public Integer getIdPlant() {
@@ -109,6 +117,14 @@ public class Plant implements Serializable {
 
     public void setVarietyPlant(String varietyPlant) {
         this.varietyPlant = varietyPlant;
+    }
+
+    public float getPricePlant() {
+        return pricePlant;
+    }
+
+    public void setPricePlant(float pricePlant) {
+        this.pricePlant = pricePlant;
     }
 
     @Override

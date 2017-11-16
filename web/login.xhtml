@@ -3,10 +3,10 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:include src="/inc/header.xhtml" />
 
-    <ui:include src="/inc/head.html" />
     <h:body>
-        <ui:include src="/inc/navigation.html" />
         <div class="main">
 
             <h:form id="loginForm">
@@ -41,7 +41,8 @@
 
             </h:form>
         </div>
-        <ui:include src="/inc/footer.html" />
+        
+        <ui:include src="/inc/footer.xhtml" />
         
     </h:body>
  

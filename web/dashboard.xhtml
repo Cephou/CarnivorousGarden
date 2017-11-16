@@ -5,17 +5,56 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
+    <h:head>
+    </h:head>
     
-    <ui:include src="/inc/head.html" />
-    
+    <ui:include src="/inc/header.xhtml" />
     
     <h:body>
         
-        <ui:include src="/inc/navigation.html" />
+        <p:dataTable id="basicDT" var="plant" value="#{plantCtrl.plants}">
+            <f:facet name="header">
+                DataTable Integration
+            </f:facet>
+            <p:column headerText="Genus">
+                <h:outputText value="#{plant.genusPlant}" />
+            </p:column>
+            <p:column headerText="Specie">
+                <h:outputText value="#{plant.speciePlant}" />
+            </p:column>
+            <p:column headerText="Sub-Specie Plant">
+                <h:outputText value="#{plant.subSpeciePlant}" />
+            </p:column>
+            <p:column headerText="Variety">
+                <h:outputText value="#{plant.varietyPlant}" />
+            </p:column>
+            <p:column style="width:32px;text-align: center">
+                 <p:commandButton update="plantDetail" oncomplete="PF('plantOP').show('#{component.plantId}')" icon="ui-icon-search" title="View">
+                    <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedPlant}" />
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
 
-       
+        <p:overlayPanel widgetVar="plantOP" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="true">
+            <p:outputPanel id="plantDetail" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty plantCtrl.selectedPlant}" columnClasses="label,value">
+                    <f:facet name="header">
+                        <p:graphicImage name="demo/images/car/#{plantCtrl.selectedPlant.genusPlant}-big.gif"/> 
+                    </f:facet>
+
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{plantCtrl.selectedPlant.genusPlant}" />
+
+                    <h:outputText value="Year" />
+                    <h:outputText value="#{plantCtrl.selectedPlant.speciePlant}" />
+
+                    <h:outputText value="Price" />
+                    <h:outputText value="$#{plantCtrl.selectedPlant.subSpeciePlant}" />
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:overlayPanel>
         
-        <ui:include src="/inc/footer.html" />
+        <ui:include src="/inc/footer.xhtml" />
         
     </h:body>
 </html>

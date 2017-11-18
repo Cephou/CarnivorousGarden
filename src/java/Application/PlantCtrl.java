@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 
 @Named(value = "plantCtrl")
@@ -20,23 +23,29 @@ public class PlantCtrl implements Serializable {
     private Plant selectedPlant;
     private List<Plant> displayPlants;
     private String selectedGenus;
+    private List<Plant> plants;
      
     public PlantCtrl() {
-        newPlant = new Plant();
     }
     
     @PostConstruct
     public void init(){
+        plants = plantDAO.allPlants();
+        newPlant = new Plant();
         displayPlants = this.getPlants();
         selectedGenus = "";
     }
    
     public List<Plant> getPlants() {
-        return plantDAO.allPlants();
+        return plants;
     }
     
     public List<Plant> getGenuses() {
         return plantDAO.plantGenuses();
+    }
+    
+    public Plant getPlantById(int id) {
+        return plantDAO.getPlantById(id);
     }
     
     public void changePlantList(){  
@@ -92,4 +101,24 @@ public class PlantCtrl implements Serializable {
         this.selectedGenus = selectedGenus;
     }
     
+    public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Plant Edited");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            plantDAO.edit((Plant)newValue);
+        }
+    }
 }

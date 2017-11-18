@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "plant")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p")
-    , @NamedQuery(name = "Plant.getAllGenuses", query = "SELECT DISTINCT p.genusPlant FROM Plant p ORDER BY p.genusPlant")
+    @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
+    , @NamedQuery(name = "Plant.getAllGenuses", query = "SELECT DISTINCT p.genusPlant FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
     , @NamedQuery(name = "Plant.getPlantsByGenus", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant ORDER BY p.genusPlant")
     , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
     , @NamedQuery(name = "Plant.findByGenusPlant", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant")

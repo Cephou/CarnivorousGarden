@@ -31,6 +31,12 @@ public class PlantDAO {
         return query.getResultList();
     }
     
+    public Plant getPlantById(int id) {
+        Query query = em.createNamedQuery("Plant.findByIdPlant");
+        query.setParameter("idPlant", id);
+        return (Plant)query.getSingleResult();
+    }
+    
     public List<Plant> getPlantsByGenus(String pgenus) {
         Query query = em.createNamedQuery("Plant.getPlantsByGenus");
         query.setParameter("genusPlant", pgenus);

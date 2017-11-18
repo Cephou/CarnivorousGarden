@@ -7,10 +7,24 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
-        <title>Inscription</title>
+        <title>Index</title>
     </h:head>
 
     <h:body>
+        
+        <h:outputStylesheet>
+            .image {
+                max-height: 250px;
+                max-width: 350px;
+                border-radius: 10px;
+            }
+            .price-box {
+                background: blue;
+            }
+            .price {
+                color: red;
+            }
+        </h:outputStylesheet>
         
         <ui:include src="/inc/header.xhtml" />
         
@@ -31,56 +45,47 @@
                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                    rowsPerPageTemplate="6,12,16">
 
-                   <f:facet name="header">
+                    <f:facet name="header">
                        Plants for sale
-                   </f:facet>
+                    </f:facet>
 
-                   <p:panel header="#{plant.idPlant}" style="text-align:center">
-                       <h:panelGrid columns="1" style="width:100%">
-                           <p:graphicImage url="/img/plants/#{plant.idPlant}.png"/> 
+                    <p:panel header="#{plant.idPlant}" style="text-align:center">                            
+                        <h:outputText value="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}" /><br />
+                        <p:graphicImage styleClass="image" url="/img/plants/#{plant.idPlant}.png"/><br />
 
-                           <h:outputText value="#{plant.pricePlant}" />
+                        <div class="price-box">
+                            <h:outputText styleClass="price" value="#{plant.pricePlant} $" /><br />
+                        </div>
+                        
+                        <p:commandButton styleClass="inline" title="Add to cart"></p:commandButton>
+<!--                        <p:commandButton styleClass="inline" update=":listPicPlants:plantDetail" oncomplete="PF('plantDialog').show()" title="View Detail">
+                            <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedPlant}" />
+                        </p:commandButton>
+-->
+                        <p:link outcome="plantsheet" value="See details">
+                            <f:param name="id" value="#{plant.idPlant}" />
+                        </p:link>
+                    </p:panel>
 
-                           <p:commandLink update=":listPicPlants:plantDetail" oncomplete="PF('plantDialog').show()" title="View Detail">
-                               <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                               <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedPlant}" />
-                           </p:commandLink>
-                       </h:panelGrid>
-                   </p:panel>
+                </p:dataGrid>
 
-               </p:dataGrid>
-
-               <p:dialog header="Plant Info" widgetVar="plantDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                   <p:outputPanel id="plantDetail" style="text-align:center;">
-                       <p:panelGrid  columns="2" rendered="#{not empty plantCtrl.selectedPlant}" columnClasses="label,value">
-                           <f:facet name="header">
+                <p:dialog header="Plant Info" widgetVar="plantDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="plantDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty plantCtrl.selectedPlant}" columnClasses="label,value">
+                            <f:facet name="header">
                                <p:graphicImage name="demo/images/car/#{plantCtrl.selectedPlant.idPlant}-big.gif"/> 
-                           </f:facet>
+                            </f:facet>
 
-                           <h:outputText value="Id:" />
-                           <h:outputText value="#{plantCtrl.selectedPlant.idPlant}" />
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{plantCtrl.selectedPlant.idPlant}" />
 
-                           <h:outputText value="Genus" />
-                           <h:outputText value="#{plantCtrl.selectedPlant.genusPlant}" />
+                            <h:outputText value="Genus" />
+                            <h:outputText value="#{plantCtrl.selectedPlant.genusPlant}" />
                            
-                       </p:panelGrid>
-                   </p:outputPanel>
-               </p:dialog>
-           </h:form>
-            
-            <p:dataList value="#{plantCtrl.plants}" var="plant">
-                <f:facet name="header">
-                        Les Plantes
-                </f:facet>
-                #{plant.genusPlant}
-            </p:dataList> 
-
-            <h:form>
-                Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
-                Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
-                <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
-            </h:form>
-            
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>          
         </div>
         
         <ui:include src="/inc/footer.xhtml" />

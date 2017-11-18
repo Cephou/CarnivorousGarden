@@ -6,54 +6,46 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <h:head>
+        <title>Dashboard</title>
     </h:head>
-    
-    <ui:include src="/inc/header.xhtml" />
-    
+        
     <h:body>
-        
-        <p:dataTable id="basicDT" var="plant" value="#{plantCtrl.plants}">
-            <f:facet name="header">
-                DataTable Integration
-            </f:facet>
-            <p:column headerText="Genus">
-                <h:outputText value="#{plant.genusPlant}" />
-            </p:column>
-            <p:column headerText="Specie">
-                <h:outputText value="#{plant.speciePlant}" />
-            </p:column>
-            <p:column headerText="Sub-Specie Plant">
-                <h:outputText value="#{plant.subSpeciePlant}" />
-            </p:column>
-            <p:column headerText="Variety">
-                <h:outputText value="#{plant.varietyPlant}" />
-            </p:column>
-            <p:column style="width:32px;text-align: center">
-                 <p:commandButton update="plantDetail" oncomplete="PF('plantOP').show('#{component.plantId}')" icon="ui-icon-search" title="View">
-                    <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedPlant}" />
-                </p:commandButton>
-            </p:column>
-        </p:dataTable>
+        <ui:include src="inc/header.xhtml" />
 
-        <p:overlayPanel widgetVar="plantOP" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="true">
-            <p:outputPanel id="plantDetail" style="text-align:center;">
-                <p:panelGrid  columns="2" rendered="#{not empty plantCtrl.selectedPlant}" columnClasses="label,value">
-                    <f:facet name="header">
-                        <p:graphicImage name="demo/images/car/#{plantCtrl.selectedPlant.genusPlant}-big.gif"/> 
-                    </f:facet>
+        <h:form id="plantAdminList">
+            <p:growl id="msgs" showDetail="true"/>
 
-                    <h:outputText value="Id:" />
-                    <h:outputText value="#{plantCtrl.selectedPlant.genusPlant}" />
+            <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" widgetVar="cellPlants">
+               <f:facet name="header">
+                   Cell Editing with Click and RightClick
+               </f:facet>
+                <p:ajax event="rowEdit" listener="#{plantCtrl.onRowEdit}" 
+                update=":plantAdminList:msgs, :plantAdminList:plantsTable" />
+                
+<!--                <p:ajax event="cellEdit" listener="#{plantCtrl.onCellEdit}" update=":plantAdminList:msgs, :plantAdminList:plantsTable" />-->
 
-                    <h:outputText value="Year" />
-                    <h:outputText value="#{plantCtrl.selectedPlant.speciePlant}" />
+               <p:column headerText="Id">
+                      <p:cellEditor>
+                          <f:facet name="output"><h:outputText value="#{plant.genusPlant}" /></f:facet>
+                          <f:facet name="input"><p:inputText id="modelInput" value="#{plant.genusPlant}" style="width:96%"/></f:facet>
+                      </p:cellEditor>
+                  </p:column>
 
-                    <h:outputText value="Price" />
-                    <h:outputText value="$#{plantCtrl.selectedPlant.subSpeciePlant}" />
-                </p:panelGrid>
-            </p:outputPanel>
-        </p:overlayPanel>
-        
+                  <p:column headerText="Price">
+                   <p:cellEditor>
+                       <f:facet name="output"><h:outputText value="#{plant.pricePlant}" /></f:facet>
+                       <f:facet name="input"><p:inputText value="#{plant.pricePlant}" style="width:96%" label="Price"/></f:facet>
+                   </p:cellEditor>
+               </p:column>
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+           </p:dataTable>
+
+            Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
+            Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
+            <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
+        </h:form>
         <ui:include src="/inc/footer.xhtml" />
         
     </h:body>

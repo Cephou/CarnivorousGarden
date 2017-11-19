@@ -12,11 +12,123 @@
     
     <h:body>
         
+        <h:outputStylesheet>
+            .sizeBox {
+                min-height: 250px;
+                border-radius: 2px;
+            }
+            .image {
+                width: 100%;
+            }
+            
+            .detailBox {
+                text-align: center;
+            }
+        </h:outputStylesheet>
+        
         #{plantCtrl.setSelectedPlant(plantCtrl.getPlantById(request.getParameter("id")))}
         
-        <h:outputText styleClass="fa fa-life-buoy" />
-        <h:outputText value="#{plantCtrl.selectedPlant.genusPlant} #{plantCtrl.selectedPlant.speciePlant}" /><br />
+        <div class="ui-grid">
+            <div class="ui-grid-col-2">        
+                <h:outputText styleClass="fa fa-life-buoy" />     
+                <h:outputText value="#{plantCtrl.selectedPlant.genusPlant} #{plantCtrl.selectedPlant.speciePlant}" />
+            </div>
+            <div class="ui-grid-col-6 detailBox"> 
+                <h:outputText 
+                    value="Utilisez exclusivement de l’eau de pluie"/>
+            </div>
+            
+            <div class="ui-grid-col-4">
+                <p:graphicImage styleClass="image" url="/img/plants/#{plantCtrl.selectedPlant.idPlant}.png"/>
+            </div>
+        </div>      
 
+        <p:tabView>
+        <p:tab title="Conseil">
+            <h:panelGrid columns="2" cellpadding="10">
+    <p:panel styleClass="sizeBox" id="water" header="Eau"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Utilisez exclusivement de l’eau de pluie, déminéralisée ou osmosée. Une eau trop calcaire fera dépérir la plante en quelques semaines. N’utilisez pas d’eau en bouteille, elles contiennent généralement trop de sels, nocifs pour la plante. En été, placez la plante dans une grande soucoupe avec de l'eau. En hiver, maintenir le substrat humide" />
+            </h:panelGrid>                        
+    </p:panel>
+            
+                <p:panel styleClass="sizeBox" id="temperature" header="Temperature"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Utilisez exclusivement de l’eau de pluie, déminéralisée ou osmosée. Une eau trop calcaire fera dépérir la plante en quelques semaines. N’utilisez pas d’eau en bouteille, elles contiennent généralement trop de sels, nocifs pour la plante. En été, placez la plante dans une grande soucoupe avec de l'eau. En hiver, maintenir le substrat humide" />
+            </h:panelGrid>                        
+            </p:panel>
+                
+            <p:panel styleClass="sizeBox" id="substract" header="Substrat"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Utilisez exclusivement de l’eau de pluie, déminéralisée ou osmosée. Une eau trop calcaire fera dépérir la plante en quelques semaines. N’utilisez pas d’eau en bouteille, elles contiennent généralement trop de sels, nocifs pour la plante. En été, placez la plante dans une grande soucoupe avec de l'eau. En hiver, maintenir le substrat humide" />
+            </h:panelGrid>                        
+            </p:panel>
+                
+            <p:panel 
+               styleClass="sizeBox" id="Light" header="Lumiere"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Plein Soleil." />
+            </h:panelGrid>                        
+            </p:panel>
+            
+                
+            </h:panelGrid>
+        </p:tab>
+            
+            
+            
+        <p:tab title="Livraison">
+            <h:panelGrid columns="2" cellpadding="10">           
+            </h:panelGrid>
+            <p:panel styleClass="sizeBox" id="delivery" header="Livraison"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Les frais de port sont calculés en fonction du gabarit de votre commande : des articles grands et/ou lourds résultent en un colis plus lourd et volumineux. Les différents matériaux utilisés (cartons, coques de protection, etc...), et la main d'oeuvre, entrent également en compte : beaucoup de temps est consacré à la bonne préparation des colis.
+La Poste.
+Service Colissimo suivi, économique. Acheminement de 48h. La livraison ne requiert pas votre signature.
+TNT Livraison à domicile. " />
+            </h:panelGrid>                        
+            </p:panel>
+            
+        </p:tab>
+        <p:tab title="Garantie">
+            <h:panelGrid columns="2" cellpadding="10">
+            </h:panelGrid>
+            
+            <p:panel styleClass="sizeBox" id="garanty" header="Garantie"  
+                                 style="margin-bottom:20px">
+            <h:panelGrid columns="2" cellpadding="10">
+                
+      
+            <h:outputText styleClass="fa fa-asterisk" />
+            <h:outputText
+                value="Les engagements de Carnivorous Garden : Un choix de plantes rares, cultivées dans nos serres, accompagnées de tous les éléments indispensables à leur culture.
+Des expéditions quotidiennes soignées, fruits de 10 années d'expérience en matière d'envois de plantes, vous garantissant une expérience heureuse.
+Des conseils personnalisés pertinents, servis par une équipe réactive et à l'écoute."/>
+        </h:panelGrid>
+            </p:panel>
+            </p:tab>
+    </p:tabView>
+        
         <ui:include src="/inc/footer.xhtml" />
         
     </h:body>

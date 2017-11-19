@@ -42,9 +42,24 @@
                 </p:column>
            </p:dataTable>
 
-            Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
-            Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
+                Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
+                Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
+   
+                <h3 style="margin-top:0">Basic</h3>
+                <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
+
+                <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
+                <p:commandButton value="Clear" type="button" onclick="PF('editor1').clear();" icon="ui-icon-close" />
+
+                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                    <p:outputPanel id="display">
+                        <h3 style="margin-top:0">Basic</h3>
+                        <h:outputText value="#{plantCtrl.newPlant.sunCondition}" escape="false" />
+                    </p:outputPanel>
+                </p:dialog>
+                
             <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
+            
         </h:form>
         <ui:include src="/inc/footer.xhtml" />
         

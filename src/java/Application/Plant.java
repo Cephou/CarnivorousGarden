@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,10 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "plant")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
+      @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
     , @NamedQuery(name = "Plant.getAllGenuses", query = "SELECT DISTINCT p.genusPlant FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
-    , @NamedQuery(name = "Plant.getPlantsByGenus", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant ORDER BY p.genusPlant")
-    , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
+    , @NamedQuery(name = "Plant.getPlantsByGenus", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant ORDER BY p.genusPlant")    , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
     , @NamedQuery(name = "Plant.findByGenusPlant", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant")
     , @NamedQuery(name = "Plant.findBySpeciePlant", query = "SELECT p FROM Plant p WHERE p.speciePlant = :speciePlant")
     , @NamedQuery(name = "Plant.findBySubSpeciePlant", query = "SELECT p FROM Plant p WHERE p.subSpeciePlant = :subSpeciePlant")
@@ -60,6 +60,10 @@ public class Plant implements Serializable {
     @Size(max = 255)
     @Column(name = "varietyPlant")
     private String varietyPlant;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "sunCondition")
+    private String sunCondition;
     @Basic(optional = false)
     @NotNull
     @Column(name = "pricePlant")
@@ -117,6 +121,14 @@ public class Plant implements Serializable {
 
     public void setVarietyPlant(String varietyPlant) {
         this.varietyPlant = varietyPlant;
+    }
+
+    public String getSunCondition() {
+        return sunCondition;
+    }
+
+    public void setSunCondition(String sunCondition) {
+        this.sunCondition = sunCondition;
     }
 
     public float getPricePlant() {

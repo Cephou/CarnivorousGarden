@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Laurent
+ * @author Aminatha
  */
 @Entity
 @Table(name = "plant")
@@ -31,11 +31,13 @@ import javax.xml.bind.annotation.XmlRootElement;
       @NamedQuery(name = "Plant.findAll", query = "SELECT p FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
     , @NamedQuery(name = "Plant.getAllGenuses", query = "SELECT DISTINCT p.genusPlant FROM Plant p ORDER BY p.genusPlant, p.speciePlant")
     , @NamedQuery(name = "Plant.getPlantsByGenus", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant ORDER BY p.genusPlant")    , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
+    , @NamedQuery(name = "Plant.findByIdPlant", query = "SELECT p FROM Plant p WHERE p.idPlant = :idPlant")
     , @NamedQuery(name = "Plant.findByGenusPlant", query = "SELECT p FROM Plant p WHERE p.genusPlant = :genusPlant")
     , @NamedQuery(name = "Plant.findBySpeciePlant", query = "SELECT p FROM Plant p WHERE p.speciePlant = :speciePlant")
     , @NamedQuery(name = "Plant.findBySubSpeciePlant", query = "SELECT p FROM Plant p WHERE p.subSpeciePlant = :subSpeciePlant")
     , @NamedQuery(name = "Plant.findByVarietyPlant", query = "SELECT p FROM Plant p WHERE p.varietyPlant = :varietyPlant")
-    , @NamedQuery(name = "Plant.findByPricePlant", query = "SELECT p FROM Plant p WHERE p.pricePlant = :pricePlant")})
+    , @NamedQuery(name = "Plant.findByPricePlant", query = "SELECT p FROM Plant p WHERE p.pricePlant = :pricePlant")
+    , @NamedQuery(name = "Plant.findByNumStock", query = "SELECT p FROM Plant p WHERE p.numStock = :numStock")})
 public class Plant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -68,6 +70,10 @@ public class Plant implements Serializable {
     @NotNull
     @Column(name = "pricePlant")
     private float pricePlant;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "numStock")
+    private int numStock;
 
     public Plant() {
     }
@@ -76,11 +82,12 @@ public class Plant implements Serializable {
         this.idPlant = idPlant;
     }
 
-    public Plant(Integer idPlant, String genusPlant, String speciePlant, float pricePlant) {
+    public Plant(Integer idPlant, String genusPlant, String speciePlant, float pricePlant, int numStock) {
         this.idPlant = idPlant;
         this.genusPlant = genusPlant;
         this.speciePlant = speciePlant;
         this.pricePlant = pricePlant;
+        this.numStock = numStock;
     }
 
     public Integer getIdPlant() {
@@ -137,6 +144,14 @@ public class Plant implements Serializable {
 
     public void setPricePlant(float pricePlant) {
         this.pricePlant = pricePlant;
+    }
+
+    public int getNumStock() {
+        return numStock;
+    }
+
+    public void setNumStock(int numStock) {
+        this.numStock = numStock;
     }
 
     @Override

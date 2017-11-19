@@ -22,11 +22,11 @@ public class UserDAO {
         return query.getResultList();
     }
     
-    public List<User> getUserByNameAndPassword(String puserName, String puserPassword) {
+    public User getUserByNameAndPassword(String puserName, String puserPassword) {
         Query query = em.createNamedQuery("User.findByNameAndPassword");
         query.setParameter("nameUser", puserName);
         query.setParameter("passwordUser", puserPassword);
-        return query.getResultList();
+        return (User)query.getSingleResult();
     }
 }
 

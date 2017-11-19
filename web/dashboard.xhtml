@@ -15,30 +15,28 @@
         <h:form id="plantAdminList">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" widgetVar="cellPlants">
-               <f:facet name="header">
+            <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" editMode="cell" widgetVar="cellPlants">
+                <f:facet name="header">
                    Cell Editing with Click and RightClick
-               </f:facet>
-                <p:ajax event="rowEdit" listener="#{plantCtrl.onRowEdit}" 
-                update=":plantAdminList:msgs, :plantAdminList:plantsTable" />
-                
-<!--                <p:ajax event="cellEdit" listener="#{plantCtrl.onCellEdit}" update=":plantAdminList:msgs, :plantAdminList:plantsTable" />-->
-
-               <p:column headerText="Id">
-                      <p:cellEditor>
-                          <f:facet name="output"><h:outputText value="#{plant.genusPlant}" /></f:facet>
-                          <f:facet name="input"><p:inputText id="modelInput" value="#{plant.genusPlant}" style="width:96%"/></f:facet>
-                      </p:cellEditor>
-                  </p:column>
-
-                  <p:column headerText="Price">
-                   <p:cellEditor>
-                       <f:facet name="output"><h:outputText value="#{plant.pricePlant}" /></f:facet>
-                       <f:facet name="input"><p:inputText value="#{plant.pricePlant}" style="width:96%" label="Price"/></f:facet>
-                   </p:cellEditor>
-               </p:column>
-                <p:column style="width:32px">
-                    <p:rowEditor />
+                </f:facet>
+                <p:ajax event="cellEdit" listener="#{plantCtrl.onCellEdit}" update=":plantAdminList:msgs, :plantAdminList:plantsTable" />
+                <p:column headerText="Id">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{plant.genusPlant}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInput" value="#{plant.genusPlant}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Price">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{plant.pricePlant}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{plant.pricePlant}" style="width:96%" label="Price"/></f:facet>
+                    </p:cellEditor>
+                </p:column>                
+                <p:column headerText="Stock">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{plant.numStock}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{plant.numStock}" style="width:96%" label="Stock"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
            </p:dataTable>
 

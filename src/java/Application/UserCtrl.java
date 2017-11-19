@@ -16,6 +16,7 @@ public class UserCtrl implements Serializable {
     @EJB
     private UserDAO userDAO;
     private User authUser;
+    private User loggedUser;
     private String loginMessage;
     
     public UserCtrl() {
@@ -24,8 +25,9 @@ public class UserCtrl implements Serializable {
     }
     
     public String login() {
-        List<User> resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
-        if (!resultLogin.isEmpty()) {
+        User resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
+        if (resultLogin != null) {
+            loggedUser = resultLogin;
             return "dashboard";
         } else {
             FacesContext.getCurrentInstance().addMessage(

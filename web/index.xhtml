@@ -13,31 +13,43 @@
     <h:body>
         
         <h:outputStylesheet>
+            .plantBox {
+                text-align:center;
+                min-height: 400px;
+            }
             .image {
                 max-height: 250px;
                 max-width: 350px;
                 border-radius: 10px;
+                margin: 10px;
             }
             .price-box {
-                background: blue;
+                background: white;
             }
             .price {
-                color: red;
+                color: black;
+            }
+            .soldout {
+                background: red;
+                color: white;
+                width: 30%;
+                margin: auto;
+                padding: 5px 10px;
+                border-radius: 100px;
+            }
+            .instock {
+                background: #61a949;
+                color: white;
+                width: 30%;
+                margin: auto;
+                padding: 5px 10px;
+                border-radius: 100px;
             }
         </h:outputStylesheet>
         
         <ui:include src="/inc/header.xhtml" />
         
         <div class="main">
-            
-            <h:form>  
-                <p:outputLabel for="genus" value="Filter by Genus " />
-                <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}" onchange="submit()">
-                    <f:selectItem itemLabel="All" itemValue="" />
-                    <f:selectItems value="#{plantCtrl.genuses}" />
-                    <p:ajax update="listPicPlants" listener="#{plantCtrl.changePlantList()}"   />  
-                </p:selectOneMenu>
-            </h:form>
             
             <h:form id="listPicPlants">
                 <p:dataGrid var="plant" value="#{plantCtrl.displayPlants}" columns="3" layout="grid"
@@ -46,45 +58,34 @@
                    rowsPerPageTemplate="6,12,16">
 
                     <f:facet name="header">
-                       Plants for sale
+                        Plants for sale<br />
+                        <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}" onchange="submit()">
+                            <f:selectItem itemLabel="All genuses" itemValue="" />
+                            <f:selectItems value="#{plantCtrl.genuses}" />
+                            <p:ajax update="listPicPlants" listener="#{plantCtrl.changePlantList()}"   />  
+                        </p:selectOneMenu>
                     </f:facet>
 
-                    <p:panel header="#{plant.idPlant}" style="text-align:center">                            
-                        <h:outputText value="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}" /><br />
+                    <p:panel header="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}" styleClass="plantBox">                            
+                        <h:panelGroup layout="block" styleClass="#{plantCtrl.isSoldOut(plant) ? 'soldout' : 'instock'}">
+                            <h:outputText styleClass="#{plantCtrl.isSoldOut(plant) ? 'fa fa-times' : 'fa fa-check'}" />    
+                            <h:outputText value=" #{plantCtrl.getStockStatus(plant)}"/><br />
+                        </h:panelGroup>
                         <p:graphicImage styleClass="image" url="/img/plants/#{plant.idPlant}.png"/><br />
-
+                        
                         <div class="price-box">
                             <h:outputText styleClass="price" value="#{plant.pricePlant} $" /><br />
                         </div>
-                        
-                        <p:commandButton styleClass="inline" title="Add to cart"></p:commandButton>
-<!--                        <p:commandButton styleClass="inline" update=":listPicPlants:plantDetail" oncomplete="PF('plantDialog').show()" title="View Detail">
-                            <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedPlant}" />
-                        </p:commandButton>
--->
                         <p:link outcome="plantsheet" value="See details">
                             <f:param name="id" value="#{plant.idPlant}" />
                         </p:link>
+                        <p:commandButton styleClass="inline" title="Add to cart" rendered="#{!plantCtrl.isSoldOut(plant)}"></p:commandButton>
+
+                        
                     </p:panel>
 
                 </p:dataGrid>
 
-                <p:dialog header="Plant Info" widgetVar="plantDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:outputPanel id="plantDetail" style="text-align:center;">
-                        <p:panelGrid  columns="2" rendered="#{not empty plantCtrl.selectedPlant}" columnClasses="label,value">
-                            <f:facet name="header">
-                               <p:graphicImage name="demo/images/car/#{plantCtrl.selectedPlant.idPlant}-big.gif"/> 
-                            </f:facet>
-
-                            <h:outputText value="Id:" />
-                            <h:outputText value="#{plantCtrl.selectedPlant.idPlant}" />
-
-                            <h:outputText value="Genus" />
-                            <h:outputText value="#{plantCtrl.selectedPlant.genusPlant}" />
-                           
-                        </p:panelGrid>
-                    </p:outputPanel>
-                </p:dialog>
             </h:form>          
         </div>
         

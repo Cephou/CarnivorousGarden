@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -53,6 +54,18 @@ public class PlantCtrl implements Serializable {
             displayPlants = plantDAO.getPlantsByGenus(selectedGenus);
         } else {
             displayPlants = this.getPlants();
+        }
+    }
+    
+    public boolean isSoldOut(Plant p) {
+        return (p.getNumStock() == 0);
+    }
+    
+    public String getStockStatus(Plant p) {
+        if(this.isSoldOut(p)) {
+            return "Sold out";
+        } else {
+            return "In stock";
         }
     }
     
@@ -116,9 +129,11 @@ public class PlantCtrl implements Serializable {
         Object newValue = event.getNewValue();
          
         if(newValue != null && !newValue.equals(oldValue)) {
+            DataTable s = (DataTable) event.getSource();
+            Plant p = (Plant) s.getRowData();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            plantDAO.edit((Plant)newValue);
+            plantDAO.edit(p);
         }
     }
 }

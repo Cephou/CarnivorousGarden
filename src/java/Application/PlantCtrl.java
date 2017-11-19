@@ -1,6 +1,9 @@
 package Application;
 
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -71,6 +74,8 @@ public class PlantCtrl implements Serializable {
     
     public void addPlant() {
         plantDAO.add(this.newPlant);
+        File file = new File("L:\\Laurent\\Documents\\NetBeansProjects\\CarnivorousGarden\\web\\img\\plants\\" + newPlant.getIdPlant() + "");
+        file.mkdirs();
         this.newPlant = new Plant();
     }
     

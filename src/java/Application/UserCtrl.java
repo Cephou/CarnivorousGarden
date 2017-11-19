@@ -38,6 +38,14 @@ public class UserCtrl implements Serializable {
             return "login";
         }
     }
+    
+    public boolean isUserLogged() {
+        return (loggedUser!=null);
+    }
+    
+    public void blockUnLogged() {
+        
+    }
 
     public UserDAO getUserDAO() {
         return userDAO;

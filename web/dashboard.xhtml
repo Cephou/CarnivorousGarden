@@ -13,7 +13,10 @@
     <h:body>
         <ui:include src="inc/header.xhtml" />
 
-        <h:form id="plantAdminList">
+        <h:outputText rendered="#{!userCtrl.userLogged}" value="You cannot access this page. Please login." />
+        <p:link outcome="login" value="Login">
+        </p:link>        
+            <h:form id="plantAdminList" rendered="#{userCtrl.userLogged}">
             <p:growl id="msgs" showDetail="true"/>
 
             <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" editMode="cell" widgetVar="cellPlants">
@@ -41,21 +44,18 @@
                 </p:column>
            </p:dataTable>
 
-                Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
-                Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
-   
-                <h3 style="margin-top:0">Basic</h3>
-                <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
+            Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
+            Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
 
-                <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-                <p:commandButton value="Clear" type="button" onclick="PF('editor1').clear();" icon="ui-icon-close" />
+            <h3 style="margin-top:0">Basic</h3>
+            <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
 
-                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
-                    <p:outputPanel id="display">
-                        <h3 style="margin-top:0">Basic</h3>
-                        <h:outputText value="#{plantCtrl.newPlant.sunCondition}" escape="false" />
-                    </p:outputPanel>
-                </p:dialog>
+            <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                <p:outputPanel id="display">
+                    <h3 style="margin-top:0">Basic</h3>
+                    <h:outputText value="#{plantCtrl.newPlant.sunCondition}" escape="false" />
+                </p:outputPanel>
+            </p:dialog>
                 
             <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
             

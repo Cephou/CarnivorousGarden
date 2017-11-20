@@ -7,17 +7,17 @@ import java.nio.file.Paths;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
 
 @Named(value = "plantCtrl")
-@ViewScoped
+@SessionScoped
 
 public class PlantCtrl implements Serializable {
 

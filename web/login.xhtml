@@ -4,44 +4,44 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
+    <h:head>
+        <title>Login</title>
+    </h:head>
+    
     <ui:include src="/inc/header.xhtml" />
 
     <h:body>
-        <div class="main">
+        <h:form id="loginForm">
+            <p:growl id="msgs" showDetail="true" life="3000" />
+            <p:panel header="Login" style="width: 600px; margin: 20px auto;">
 
-            <h:form id="loginForm">
-                <p:growl id="msg" showDetail="true" life="3000" />
-                <p:panel header="Login" style="width: 360px;">
+                <h:panelGrid id="loginPanel" columns="2">
 
-                    <h:panelGrid id="loginPanel" columns="2">
+                    <h:outputText value="Username" /><br />
 
-                        <h:outputText value="Username" />
+                    <p:inputText id="username" value="#{userCtrl.authUser.nameUser}" ></p:inputText><br />
 
-                        <p:inputText id="username" value="#{userCtrl.authUser.nameUser}" ></p:inputText>
+                    <p:spacer></p:spacer>
 
-                        <p:spacer></p:spacer>
+                    <p:message for="username" ></p:message><br />
 
-                        <p:message for="username" ></p:message>
+                    <h:outputText value="Password" /><br />
 
-                        <h:outputText value="Password" />
+                    <p:password id="password" value="#{userCtrl.authUser.passwordUser}"  feedback="false"></p:password>
+                    
+                    <p:spacer></p:spacer>
 
-                        <p:password id="password" value="#{userCtrl.authUser.passwordUser}"  feedback="false"></p:password>
+                    <p:message for="password"></p:message><br />
 
-                        <p:spacer></p:spacer>
+                    <p:spacer></p:spacer>
 
-                        <p:message for="password"></p:message>
+                    <p:commandButton action="#{userCtrl.login}" value="Login" update="loginForm" ajax="true"></p:commandButton>
 
-                        <p:spacer></p:spacer>
+                </h:panelGrid>
 
-                        <p:commandButton action="#{userCtrl.login}" value="Login" update="loginForm" ajax="true"></p:commandButton>
+            </p:panel>
 
-                    </h:panelGrid>
-
-                </p:panel>
-
-            </h:form>
-        </div>
-        
+        </h:form>        
         <ui:include src="/inc/footer.xhtml" />
         
     </h:body>

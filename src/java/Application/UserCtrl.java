@@ -1,15 +1,14 @@
 package Application;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 @Named(value = "userCtrl")
-@ViewScoped
+@SessionScoped
 
 public class UserCtrl implements Serializable {
     
@@ -30,23 +29,23 @@ public class UserCtrl implements Serializable {
             loggedUser = resultLogin;
             return "dashboard";
         } else {
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Invalid Login!",
-                    "Please Try Again!"));
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid login", "Please try again");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             return "login";
         }
+    }
+    
+    public String disconnect() {
+        loggedUser = null;
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Disconnected", "You've been disconnected");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        return "index.xhtml";
     }
     
     public boolean isUserLogged() {
         return (loggedUser!=null);
     }
-    
-    public void blockUnLogged() {
-        
-    }
-
+   
     public UserDAO getUserDAO() {
         return userDAO;
     }

@@ -6,12 +6,53 @@
     
     <h:head>
     </h:head>
-    <h:form>  
+    <h:form id="cartCounter">  
         <p:growl id="messages"/>
 
         <p:menubar>
-            <p:menuitem value="Index" url="faces/index.xhtml" icon="fa fa-windows" />
-            <p:menuitem value="Cart" url="faces/index.xhtml" icon="fa fa-shopping-cart" />
+            <p:menuitem value="Index" url="index.xhtml" icon="fa fa-windows" />
+            <p:menuitem value="Cart #{cartCtrl.numberOfItems}" onclick="PF('cartDialog').show();" icon="fa fa-shopping-cart" />
+            <p:menuitem value="Logout" rendered="#{userCtrl.userLogged}" action="#{userCtrl.disconnect()}" icon="fa fa-times" />
         </p:menubar>
     </h:form>
+    
+    <p:dialog id="cartModal" header="Your cart" widgetVar="cartDialog" modal="true" height="800">
+        <p:dataTable var="plant" value="#{cartCtrl.currentCart.plantCollection}">
+            <f:facet name="header">
+                Let's recapitulate your command :
+            </f:facet>
+            <p:column headerText="Genus">
+                <h:outputText value="#{plant.genusPlant}" />
+            </p:column>
+            <p:column headerText="Specie">
+                <h:outputText value="#{plant.speciePlant}" />
+            </p:column>            
+            <p:column headerText="Variety">
+                <h:outputText value="#{plant.varietyPlant}" />
+            </p:column>            
+            <p:column headerText="Delete">
+                <h:form>
+                    <p:commandButton oncomplete="PF('cartDialog').show()" action="#{cartCtrl.removeItemFromCart(plant)}" update="cartModal, cartCounter" value="Delete" icon="fa fa-times" />
+                </h:form>
+            </p:column>
+        </p:dataTable>
+        <br />
+        Total price : <h:outputText value="#{cartCtrl.getTotalValue()} $" /><br />
+        <h:form rendered="#{cartCtrl.numberOfItems != 0}">
+            <br />
+            <p:growl id="validateCartGrowl"/>
+
+            <p:outputLabel value="In order to confirm your command :" /><br /><br />
+
+            <p:outputLabel value="Enter your name" /><br />
+            <p:inputText required="true" requiredMessage="This name is required" value="#{cartCtrl.currentCart.nameCart}"/><br />
+
+            <p:outputLabel value="Enter your email" /><br />
+            <p:inputText required="true" requiredMessage="This email is required" value="#{cartCtrl.currentCart.mailCart}"/><br />
+
+            <p:commandButton value="Validate my cart" update="validateCartGrowl" action="#{cartCtrl.validateCart()}" />
+        </h:form>
+        
+    </p:dialog>
+    
 </html>

@@ -6,7 +6,8 @@
     </h:head>
     <h:form>  
         <p:menubar>
-            <p:menuitem value=" Admin" url="faces/dashboard.xhtml" icon="fa fa-key" />
+            <p:menuitem value=" Admin" url="dashboard.xhtml" icon="fa fa-key" rendered="#{userCtrl.userLogged}"/>
+            <p:menuitem value=" Login" url="login.xhtml" icon="fa fa-sign-in" rendered="#{!userCtrl.userLogged}"/>
         </p:menubar>
     </h:form>
 </html>

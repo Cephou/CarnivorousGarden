@@ -48,47 +48,45 @@
         </h:outputStylesheet>
         
         <ui:include src="/inc/header.xhtml" />
-        
-        <div class="main">
             
-            <h:form id="listPicPlants">
-                <p:dataGrid var="plant" value="#{plantCtrl.displayPlants}" columns="3" layout="grid"
-                   rows="12" paginator="true" id="plants"
-                   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                   rowsPerPageTemplate="6,12,16">
+        <p:growl id="msgs" showDetail="true"/>
 
-                    <f:facet name="header">
-                        Plants for sale<br />
-                        <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}" onchange="submit()">
-                            <f:selectItem itemLabel="All genuses" itemValue="" />
-                            <f:selectItems value="#{plantCtrl.genuses}" />
-                            <p:ajax update="listPicPlants" listener="#{plantCtrl.changePlantList()}"   />  
-                        </p:selectOneMenu>
-                    </f:facet>
+        <h:form id="listPicPlants">
+            <p:dataGrid var="plant" value="#{plantCtrl.displayPlants}" columns="3" layout="grid"
+               rows="12" paginator="true" id="plants"
+               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+               rowsPerPageTemplate="6,12,16">
 
-                    <p:panel header="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}" styleClass="plantBox">                            
-                        <h:panelGroup layout="block" styleClass="#{plantCtrl.isSoldOut(plant) ? 'soldout' : 'instock'}">
-                            <h:outputText styleClass="#{plantCtrl.isSoldOut(plant) ? 'fa fa-times' : 'fa fa-check'}" />    
-                            <h:outputText value=" #{plantCtrl.getStockStatus(plant)}"/><br />
-                        </h:panelGroup>
-                        <p:graphicImage styleClass="image" url="/img/plants/#{plant.idPlant}.png"/><br />
-                        
-                        <div class="price-box">
-                            <h:outputText styleClass="price" value="#{plant.pricePlant} $" /><br />
-                        </div>
-                        <p:link outcome="plantsheet" value="See details">
-                            <f:param name="id" value="#{plant.idPlant}" />
-                        </p:link>
-                        <p:commandButton styleClass="inline" title="Add to cart" rendered="#{!plantCtrl.isSoldOut(plant)}"></p:commandButton>
+                <f:facet name="header">
+                    Plants for sale<br />
+                    <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}" onchange="submit()">
+                        <f:selectItem itemLabel="All genuses" itemValue="" />
+                        <f:selectItems value="#{plantCtrl.genuses}" />
+                        <p:ajax update="listPicPlants" listener="#{plantCtrl.changePlantList()}"   />  
+                    </p:selectOneMenu>
+                </f:facet>
 
-                        
-                    </p:panel>
+                <p:panel header="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}" styleClass="plantBox">                            
+                    <h:panelGroup layout="block" styleClass="#{plantCtrl.isSoldOut(plant) ? 'soldout' : 'instock'}">
+                        <h:outputText styleClass="#{plantCtrl.isSoldOut(plant) ? 'fa fa-times' : 'fa fa-check'}" />    
+                        <h:outputText value=" #{plantCtrl.getStockStatus(plant)}"/><br />
+                    </h:panelGroup>
+                    <p:graphicImage styleClass="image" url="/img/plants/#{plant.idPlant}.png"/><br />
 
-                </p:dataGrid>
+                    <div class="price-box">
+                        <h:outputText styleClass="price" value="#{plant.pricePlant} $" /><br />
+                    </div>
+                    <p:link outcome="plantsheet" value="See details">
+                        <f:param name="id" value="#{plant.idPlant}" />
+                    </p:link>
+                    <p:commandButton ajax="true" action="#{cartCtrl.addItemToCart(plant)}" onclick="PF('cartDialog').show()" update="cartModal, cartCounter" styleClass="inline" title="Add to cart" rendered="#{!plantCtrl.isSoldOut(plant)}"></p:commandButton>
 
-            </h:form>          
-        </div>
-        
+
+                </p:panel>
+
+            </p:dataGrid>
+
+        </h:form>                  
         <ui:include src="/inc/footer.xhtml" />
 
     </h:body>

@@ -37,7 +37,7 @@ public class PlantCtrl implements Serializable {
         plants = plantDAO.allPlants();
         newPlant = new Plant();
         displayPlants = this.getPlants();
-        selectedGenus = "";
+        selectedGenus = "all";
     }
    
     public List<Plant> getPlants() {
@@ -53,10 +53,10 @@ public class PlantCtrl implements Serializable {
     }
     
     public void changePlantList(){  
-        if(!this.selectedGenus.isEmpty()) {
+        if(!"all".equals(this.selectedGenus)) {
             displayPlants = plantDAO.getPlantsByGenus(selectedGenus);
         } else {
-            displayPlants = this.getPlants();
+            displayPlants = plantDAO.allPlants();
         }
     }
     
@@ -70,6 +70,10 @@ public class PlantCtrl implements Serializable {
         } else {
             return "In stock";
         }
+    }
+    
+    public void removePlant(Plant p) {
+        plantDAO.remove(p);
     }
     
     public void addPlant() {

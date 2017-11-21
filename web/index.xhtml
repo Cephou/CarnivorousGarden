@@ -12,43 +12,9 @@
 
     <h:body>
         
-        <h:outputStylesheet>
-            .plantBox {
-                text-align:center;
-                min-height: 400px;
-            }
-            .image {
-                max-height: 250px;
-                max-width: 350px;
-                border-radius: 10px;
-                margin: 10px;
-            }
-            .price-box {
-                background: white;
-            }
-            .price {
-                color: black;
-            }
-            .soldout {
-                background: red;
-                color: white;
-                width: 30%;
-                margin: auto;
-                padding: 5px 10px;
-                border-radius: 100px;
-            }
-            .instock {
-                background: #61a949;
-                color: white;
-                width: 30%;
-                margin: auto;
-                padding: 5px 10px;
-                border-radius: 100px;
-            }
-        </h:outputStylesheet>
-        
         <ui:include src="/inc/header.xhtml" />
-            
+        <div class="main">
+ 
         <p:growl id="msgs" showDetail="true"/>
 
         <h:form id="listPicPlants">
@@ -59,8 +25,8 @@
 
                 <f:facet name="header">
                     Plants for sale<br />
-                    <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}" onchange="submit()">
-                        <f:selectItem itemLabel="All genuses" itemValue="" />
+                    <p:selectOneMenu id="genus" value="#{plantCtrl.selectedGenus}">
+                        <f:selectItem itemLabel="All genuses" itemValue="all" noSelectionOption="true" />
                         <f:selectItems value="#{plantCtrl.genuses}" />
                         <p:ajax update="listPicPlants" listener="#{plantCtrl.changePlantList()}"   />  
                     </p:selectOneMenu>
@@ -76,17 +42,16 @@
                     <div class="price-box">
                         <h:outputText styleClass="price" value="#{plant.pricePlant} $" /><br />
                     </div>
-                    <p:link outcome="plantsheet" value="See details">
-                        <f:param name="id" value="#{plant.idPlant}" />
-                    </p:link>
-                    <p:commandButton ajax="true" action="#{cartCtrl.addItemToCart(plant)}" onclick="PF('cartDialog').show()" update="cartModal, cartCounter" styleClass="inline" title="Add to cart" rendered="#{!plantCtrl.isSoldOut(plant)}"></p:commandButton>
+                    <p:button href="plantsheet.xhtml?id=#{plant.idPlant}" value="See details" icon="fa fa-link"></p:button>
+                    <p:commandButton ajax="true" icon="fa fa-shopping-cart" action="#{cartCtrl.addItemToCart(plant)}" oncomplete="PF('cartDialog').show()" update="cartModal, cartCounter" styleClass="inline" value="Add to cart" rendered="#{!plantCtrl.isSoldOut(plant) and (!userCtrl.userLogged)}"></p:commandButton>
 
 
                 </p:panel>
 
             </p:dataGrid>
 
-        </h:form>                  
+        </h:form> 
+        </div>
         <ui:include src="/inc/footer.xhtml" />
 
     </h:body>

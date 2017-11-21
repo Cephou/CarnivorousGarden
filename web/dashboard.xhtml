@@ -8,58 +8,110 @@
     <h:head>
         <title>Dashboard</title>
     </h:head>
-        
     
     <h:body>
         <ui:include src="inc/header.xhtml" />
+        <div class="main">
 
         <h:outputText rendered="#{!userCtrl.userLogged}" value="You cannot access this page. Please login." />
-        <p:link outcome="login" value="Login">
-        </p:link>        
-            <h:form id="plantAdminList" rendered="#{userCtrl.userLogged}">
-            <p:growl id="msgs" showDetail="true"/>
+        <p:link rendered="#{!userCtrl.userLogged}" outcome="login" value="Login" />
 
-            <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" editMode="cell" widgetVar="cellPlants">
-                <f:facet name="header">
-                   Cell Editing with Click and RightClick
-                </f:facet>
-                <p:ajax event="cellEdit" listener="#{plantCtrl.onCellEdit}" update=":plantAdminList:msgs, :plantAdminList:plantsTable" />
-                <p:column headerText="Id">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{plant.genusPlant}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="modelInput" value="#{plant.genusPlant}" style="width:96%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column headerText="Price">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{plant.pricePlant}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{plant.pricePlant}" style="width:96%" label="Price"/></f:facet>
-                    </p:cellEditor>
-                </p:column>                
-                <p:column headerText="Stock">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{plant.numStock}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{plant.numStock}" style="width:96%" label="Stock"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-           </p:dataTable>
+        <p:tabView id="adminTable">
+            <p:tab title="Plant list">        
+                <h:form id="plantAdminList">
+                    <p:growl id="msgs" showDetail="true"/>
 
-            Genre : <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/>
-            Espèce : <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/>
+                    <p:dataTable id="plantsTable" var="plant" value="#{plantCtrl.plants}" editable="true" editMode="cell" widgetVar="cellPlants">
+                        <f:facet name="header">
+                           Plant list<br />
+                           In order to edit, please click into the cells
+                        </f:facet>
+                        <p:ajax event="cellEdit" listener="#{plantCtrl.onCellEdit}" update=":adminTable:plantAdminList:msgs, :adminTable:plantAdminList:plantsTable" />
+                        <p:column headerText="Genus">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{plant.genusPlant}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{plant.genusPlant}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Specie">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{plant.speciePlant}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{plant.speciePlant}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Variety">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{plant.varietyPlant}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{plant.varietyPlant}" style="width:96%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Price ($)">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{plant.pricePlant}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{plant.pricePlant}" style="width:96%" label="Price"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>                
+                        <p:column headerText="Stock">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{plant.numStock}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{plant.numStock}" style="width:96%" label="Stock"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>                        
+                        <p:column headerText="Delete">
+                            <p:commandButton icon="fa fa-times" value="Delete" action="#{plantCtrl.removePlant(plant)}" update=":adminTable:plantAdminList"/>
+                        </p:column>
+                   </p:dataTable>
+                </h:form>
+            </p:tab>
+            <p:tab title="Add plant">
+                <h:form>
+                    Genus :<br/>
+                    <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/><br/>
+                    Specie :<br />
+                    <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/><br/>
+                    Variety :<br />
+                    <p:inputText value="#{plantCtrl.newPlant.varietyPlant}" /><br/><br/>
+                    Price :<br />
+                    <p:inputText value="#{plantCtrl.newPlant.pricePlant}" /><br/><br/>
+                    Stock :<br />
+                    <p:inputText value="#{plantCtrl.newPlant.numStock}" /><br/><br/>
+                    
+                    Culture conditions :<br />
+                    <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
 
-            <h3 style="margin-top:0">Basic</h3>
-            <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
-
-            <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
-                <p:outputPanel id="display">
-                    <h3 style="margin-top:0">Basic</h3>
-                    <h:outputText value="#{plantCtrl.newPlant.sunCondition}" escape="false" />
-                </p:outputPanel>
-            </p:dialog>
-                
-            <h:commandButton value="Sauver" action="#{plantCtrl.addPlant()}" />
+                    <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
+                        <p:outputPanel id="display">
+                            <h3 style="margin-top:0">Basic</h3>
+                            <h:outputText value="#{plantCtrl.newPlant.sunCondition}" escape="false" />
+                        </p:outputPanel>
+                    </p:dialog>
+                    <h:commandButton value="Create plant" action="#{plantCtrl.addPlant()}" />
+                </h:form>
+            </p:tab>
+            <p:tab title="Commands">
+                <h:panelGroup layout="block" class="ui-grid">
+                    <h:form id="form">
+                        <p:repeat value="#{cartCtrl.carts}" var="cart">
+                            <h:panelGroup layout="block" styleClass="commandBox ui-grid-col-4">
+                                <h:panelGroup styleClass="commandHeader" layout="block">
+                                    <h:outputText value="#{cart.nameCart}" styleClass="commandName" /> <h:outputText value="#{cart.mailCart}" styleClass="commandMail" /><br />
+                                </h:panelGroup>
+                                <h:panelGroup styleClass="commandBody" layout="block">
+                                    <p:repeat value="#{cart.plantCollection}" var="plant">
+                                        <h:outputText value="#{plant.genusPlant}"/>
+                                    </p:repeat>
+                                </h:panelGroup>                            
+                                <h:panelGroup styleClass="commandFooter" layout="block">
+                                    <h:outputText value="Total value : #{cartCtrl.getTotalValue(cart)} $" />
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:repeat>
+                    </h:form>
+                </h:panelGroup>
+            </p:tab>
+        </p:tabView>
             
-        </h:form>
+        </div>
         <ui:include src="/inc/footer.xhtml" />
         
     </h:body>

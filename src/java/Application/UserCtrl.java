@@ -1,5 +1,6 @@
 package Application;
 
+import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -27,9 +28,12 @@ public class UserCtrl implements Serializable {
         User resultLogin = this.userDAO.getUserByNameAndPassword(authUser.getNameUser(), authUser.getPasswordUser());
         if (resultLogin != null) {
             loggedUser = resultLogin;
+            try{ 
+                FacesContext.getCurrentInstance().getExternalContext().redirect("dashboard.xhtml");
+            } catch (IOException ex) {}
             return "dashboard";
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid login", "Please try again");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid login", "Please try again");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return "login";
         }

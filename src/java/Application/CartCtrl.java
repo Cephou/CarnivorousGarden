@@ -2,6 +2,7 @@ package Application;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -14,8 +15,10 @@ public class CartCtrl implements Serializable {
     
     @EJB
     private CartDAO cartDAO;
+    @EJB
     private PlantDAO plantDAO;
     private Cart currentCart;
+    private List<Cart> carts;
 
     /**
      * Creates a new instance of CartCtrl
@@ -25,6 +28,7 @@ public class CartCtrl implements Serializable {
     
     @PostConstruct
     public void init() {
+        carts = cartDAO.allCarts();
         currentCart = new Cart();
         currentCart.setPlantCollection(new ArrayList<Plant>());
     }
@@ -41,9 +45,9 @@ public class CartCtrl implements Serializable {
         return currentCart.getPlantCollection().size();
     }
     
-    public float getTotalValue() {
+    public float getTotalValue(Cart c) {
         float total = 0;
-        for(Plant plant : currentCart.getPlantCollection()) {
+        for(Plant plant : c.getPlantCollection()) {
             total += plant.getPricePlant();
 	}
         return total;
@@ -51,7 +55,15 @@ public class CartCtrl implements Serializable {
     
     public void validateCart() {
         cartDAO.add(currentCart);
+        int stock;
+        for(Plant plant : currentCart.getPlantCollection()) {
+            stock = plant.getNumStock();
+            plant.setNumStock(stock - 1);
+            plantDAO.edit(plant);
+        }
         currentCart = new Cart();
+        currentCart.setPlantCollection(new ArrayList<Plant>());
+        carts = cartDAO.allCarts();
     }
 
     public CartDAO getCartDAO() {
@@ -69,5 +81,23 @@ public class CartCtrl implements Serializable {
     public void setCurrentCart(Cart currentCart) {
         this.currentCart = currentCart;
     }
+
+    public PlantDAO getPlantDAO() {
+        return plantDAO;
+    }
+
+    public void setPlantDAO(PlantDAO plantDAO) {
+        this.plantDAO = plantDAO;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+    
+    
     
 }

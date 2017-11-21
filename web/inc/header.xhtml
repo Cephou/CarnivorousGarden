@@ -6,13 +6,17 @@
     
     <h:head>
     </h:head>
+    <link href="./css/style.css" rel="stylesheet" type="text/css"/> 
+
     <h:form id="cartCounter">  
         <p:growl id="messages"/>
 
         <p:menubar>
-            <p:menuitem value="Index" url="index.xhtml" icon="fa fa-windows" />
-            <p:menuitem value="Cart #{cartCtrl.numberOfItems}" onclick="PF('cartDialog').show();" icon="fa fa-shopping-cart" />
-            <p:menuitem value="Logout" rendered="#{userCtrl.userLogged}" action="#{userCtrl.disconnect()}" icon="fa fa-times" />
+            <p:menuitem value=" Index" url="index.xhtml" icon="fa fa-windows" />
+            <p:menuitem rendered="#{!userCtrl.userLogged}" value="Cart #{cartCtrl.numberOfItems}" onclick="PF('cartDialog').show();" icon="fa fa-shopping-cart" />
+            <p:menuitem value=" Admin" url="dashboard.xhtml" icon="fa fa-key" rendered="#{userCtrl.userLogged}"/>
+            <p:menuitem value=" Logout" rendered="#{userCtrl.userLogged}" action="#{userCtrl.disconnect()}" icon="fa fa-times" />
+            <p:menuitem style="margin-right: 80%;" value=" Login" url="login.xhtml" icon="fa fa-sign-in" rendered="#{!userCtrl.userLogged}"/>
         </p:menubar>
     </h:form>
     
@@ -29,6 +33,9 @@
             </p:column>            
             <p:column headerText="Variety">
                 <h:outputText value="#{plant.varietyPlant}" />
+            </p:column>              
+            <p:column headerText="Price">
+                <h:outputText value="#{plant.pricePlant} $" />
             </p:column>            
             <p:column headerText="Delete">
                 <h:form>
@@ -37,7 +44,7 @@
             </p:column>
         </p:dataTable>
         <br />
-        Total price : <h:outputText value="#{cartCtrl.getTotalValue()} $" /><br />
+        Total price : <h:outputText value="#{cartCtrl.getTotalValue(cartCtrl.currentCart)} $" /><br />
         <h:form rendered="#{cartCtrl.numberOfItems != 0}">
             <br />
             <p:growl id="validateCartGrowl"/>
@@ -50,9 +57,9 @@
             <p:outputLabel value="Enter your email" /><br />
             <p:inputText required="true" requiredMessage="This email is required" value="#{cartCtrl.currentCart.mailCart}"/><br />
 
-            <p:commandButton value="Validate my cart" update="validateCartGrowl" action="#{cartCtrl.validateCart()}" />
+            <p:commandButton value="Validate my cart" update="validateCartGrowl, cartModal, cartCounter" oncomplete="PF('cartDialog').hide()" action="#{cartCtrl.validateCart()}" />
         </h:form>
         
     </p:dialog>
-    
+        
 </html>

@@ -5,6 +5,7 @@
  */
 package Application;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,7 +20,12 @@ public class CartDAO {
     
     @PersistenceContext(unitName = "CarnivorousGardenPU")
     private EntityManager em;
-       
+    
+    public List<Cart> allCarts() {
+        Query query = em.createNamedQuery("Cart.findAll");
+        return query.getResultList();
+    }
+    
     public void add(Cart c) {
         em.persist(c);
         em.flush();

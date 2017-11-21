@@ -74,6 +74,8 @@ public class PlantCtrl implements Serializable {
     
     public void removePlant(Plant p) {
         plantDAO.remove(p);
+        displayPlants = plantDAO.allPlants();
+        plants = plantDAO.allPlants();
     }
     
     public void addPlant() {

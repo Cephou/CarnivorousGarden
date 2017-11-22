@@ -100,15 +100,20 @@
                         <p:repeat value="#{cartCtrl.carts}" var="cart">
                             <h:panelGroup layout="block" styleClass="commandBox ui-grid-col-4">
                                 <h:panelGroup styleClass="commandHeader" layout="block">
-                                    <h:outputText value="#{cart.nameCart}" styleClass="commandName" /> <h:outputText value="#{cart.mailCart}" styleClass="commandMail" /><br />
+                                    <h:outputText value="#{cart.nameCart}" styleClass="commandName" /> 
+                                    <h:outputText value="#{cart.dateCart}" styleClass="commandDate">  
+                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                    </h:outputText>
+                                    <br />
                                 </h:panelGroup>
                                 <h:panelGroup styleClass="commandBody" layout="block">
                                     <p:repeat value="#{cart.plantCollection}" var="plant">
-                                        <h:outputText value="#{plant.genusPlant}"/>
+                                        <h:outputText value="#{plant.genusPlant} #{plant.speciePlant} #{plant.varietyPlant}"/>
+                                        <h:outputText style="float: right" value="#{plant.pricePlant} $" /><br />
                                     </p:repeat>
                                 </h:panelGroup>                            
                                 <h:panelGroup styleClass="commandFooter" layout="block">
-                                    <h:outputText value="Total value : #{cartCtrl.getTotalValue(cart)} $" />
+                                    <h:outputText value="Total value : #{cartCtrl.getTotalValue(cart)} $" /> <h:outputText value="#{cart.mailCart}" styleClass="commandMail" />
                                 </h:panelGroup>
                             </h:panelGroup>
                         </p:repeat>

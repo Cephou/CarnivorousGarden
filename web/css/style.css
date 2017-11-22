@@ -8,6 +8,23 @@ and open the template in the editor.
     Author     : Laurent Noyon
 */
 
+.header-bar {
+    background: url('./img/DRotundifolia.jpg');
+    background-size: cover;
+    background-position: 50%;
+    height: 100px;
+    position: relative; 
+    color: #ecf0f1;
+    padding-top: 1%;
+    line-height: 65px;
+    padding-left: 30px;
+    text-shadow: 1px 1px 4px #0000009e;
+} 
+
+.ui-menuitem.ui-widget.ui-corner-all:last-child {
+    float: right;
+}
+
 body {
   display: flex;
   min-height: 100vh;
@@ -61,6 +78,9 @@ button {
 }
 .commandMail {
     font-style: italic;
+    float: right;
+}
+.commandDate {
     float: right;
 }
 .commandName {

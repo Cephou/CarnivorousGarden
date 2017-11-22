@@ -7,16 +7,19 @@
     <h:head>
     </h:head>
     <link href="./css/style.css" rel="stylesheet" type="text/css"/> 
-
+    
+    <h:panelGroup layout="block" class="header-bar">
+        <h:outputText value=" Carnivorous Garden " style="font-size: 200%;padding-top: 20px;display: inline-block;margin-left: 3%;"/>
+    </h:panelGroup>
+    
     <h:form id="cartCounter">  
         <p:growl id="messages"/>
-
         <p:menubar>
             <p:menuitem value=" Index" url="index.xhtml" icon="fa fa-windows" />
             <p:menuitem rendered="#{!userCtrl.userLogged}" value="Cart #{cartCtrl.numberOfItems}" onclick="PF('cartDialog').show();" icon="fa fa-shopping-cart" />
             <p:menuitem value=" Admin" url="dashboard.xhtml" icon="fa fa-key" rendered="#{userCtrl.userLogged}"/>
             <p:menuitem value=" Logout" rendered="#{userCtrl.userLogged}" action="#{userCtrl.disconnect()}" icon="fa fa-times" />
-            <p:menuitem style="margin-right: 80%;" value=" Login" url="login.xhtml" icon="fa fa-sign-in" rendered="#{!userCtrl.userLogged}"/>
+            <p:menuitem value=" Contact" url="contact.xhtml" icon="fa fa-map-marker" />
         </p:menubar>
     </h:form>
     
@@ -57,6 +60,8 @@
             <p:outputLabel value="Enter your email" /><br />
             <p:inputText required="true" requiredMessage="This email is required" value="#{cartCtrl.currentCart.mailCart}"/><br />
 
+            <p:outputLabel for="datepick" value="Choose a pick-up date" /><br />
+            <p:calendar id="datepick" value="#{cartCtrl.currentCart.dateCart}" showOn="button" /><br /><br />
             <p:commandButton value="Validate my cart" update="validateCartGrowl, cartModal, cartCounter" oncomplete="PF('cartDialog').hide()" action="#{cartCtrl.validateCart()}" />
         </h:form>
         

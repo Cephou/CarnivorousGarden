@@ -7,6 +7,7 @@ package Application;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,11 +35,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "cart")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Cart.findAll", query = "SELECT c FROM Cart c")
+    @NamedQuery(name = "Cart.findAll", query = "SELECT c FROM Cart c ORDER BY c.dateCart ASC")
     , @NamedQuery(name = "Cart.findByIdCart", query = "SELECT c FROM Cart c WHERE c.idCart = :idCart")
     , @NamedQuery(name = "Cart.findByMailCart", query = "SELECT c FROM Cart c WHERE c.mailCart = :mailCart")
-    , @NamedQuery(name = "Cart.findByNameCart", query = "SELECT c FROM Cart c WHERE c.nameCart = :nameCart")})
+    , @NamedQuery(name = "Cart.findByNameCart", query = "SELECT c FROM Cart c WHERE c.nameCart = :nameCart")
+    , @NamedQuery(name = "Cart.findByDateCart", query = "SELECT c FROM Cart c WHERE c.dateCart = :dateCart")})
 public class Cart implements Serializable {
+
+    @JoinTable(name = "cartlist", joinColumns = {
+        @JoinColumn(name = "idCart", referencedColumnName = "idCart")}, inverseJoinColumns = {
+        @JoinColumn(name = "idPlant", referencedColumnName = "idPlant")})
+    @ManyToMany
+    private Collection<Plant> plantCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,11 +64,11 @@ public class Cart implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "nameCart")
     private String nameCart;
-    @JoinTable(name = "cartlist", joinColumns = {
-        @JoinColumn(name = "idCart", referencedColumnName = "idCart")}, inverseJoinColumns = {
-        @JoinColumn(name = "idPlant", referencedColumnName = "idPlant")})
-    @ManyToMany
-    private Collection<Plant> plantCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "dateCart")
+    @Temporal(TemporalType.DATE)
+    private Date dateCart;
 
     public Cart() {
     }
@@ -67,10 +77,11 @@ public class Cart implements Serializable {
         this.idCart = idCart;
     }
 
-    public Cart(Integer idCart, String mailCart, String nameCart) {
+    public Cart(Integer idCart, String mailCart, String nameCart, Date dateCart) {
         this.idCart = idCart;
         this.mailCart = mailCart;
         this.nameCart = nameCart;
+        this.dateCart = dateCart;
     }
 
     public Integer getIdCart() {
@@ -97,13 +108,12 @@ public class Cart implements Serializable {
         this.nameCart = nameCart;
     }
 
-    @XmlTransient
-    public Collection<Plant> getPlantCollection() {
-        return plantCollection;
+    public Date getDateCart() {
+        return dateCart;
     }
 
-    public void setPlantCollection(Collection<Plant> plantCollection) {
-        this.plantCollection = plantCollection;
+    public void setDateCart(Date dateCart) {
+        this.dateCart = dateCart;
     }
 
     @Override
@@ -129,6 +139,15 @@ public class Cart implements Serializable {
     @Override
     public String toString() {
         return "Application.Cart[ idCart=" + idCart + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Plant> getPlantCollection() {
+        return plantCollection;
+    }
+
+    public void setPlantCollection(Collection<Plant> plantCollection) {
+        this.plantCollection = plantCollection;
     }
     
 }

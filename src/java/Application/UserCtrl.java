@@ -43,6 +43,9 @@ public class UserCtrl implements Serializable {
         loggedUser = null;
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Disconnected", "You've been disconnected");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        try{ 
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (IOException ex) {}
         return "index.xhtml";
     }
     

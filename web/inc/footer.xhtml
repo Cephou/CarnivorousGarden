@@ -5,5 +5,10 @@
     <h:head>
     </h:head>
     
-    <div class="footer">Created by Aminatha Parrondo and Laurent Noyon.</div>
+    <div class="footer">
+        Created by Aminatha Parrondo and Laurent Noyon.
+        <h:form style="float: right; margin: 0">
+            <p:button href="login.xhtml" value="Login" icon="fa fa-sign-in" rendered="#{!userCtrl.userLogged}"></p:button>
+        </h:form>
+    </div>
 </html>

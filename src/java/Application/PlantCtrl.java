@@ -25,6 +25,7 @@ public class PlantCtrl implements Serializable {
     private PlantDAO plantDAO;
     private Plant newPlant;
     private Plant selectedPlant;
+    private Plant selectedAdminPlant;
     private List<Plant> displayPlants;
     private String selectedGenus;
     private List<Plant> plants;
@@ -70,6 +71,10 @@ public class PlantCtrl implements Serializable {
         } else {
             return "In stock";
         }
+    }
+    
+    public void updateAdminPlant() {
+        plantDAO.edit(selectedAdminPlant);
     }
     
     public void removePlant(Plant p) {
@@ -123,6 +128,14 @@ public class PlantCtrl implements Serializable {
 
     public void setSelectedGenus(String selectedGenus) {
         this.selectedGenus = selectedGenus;
+    }
+
+    public Plant getSelectedAdminPlant() {
+        return selectedAdminPlant;
+    }
+
+    public void setSelectedAdminPlant(Plant selectedAdminPlant) {
+        this.selectedAdminPlant = selectedAdminPlant;
     }
     
     public void onRowEdit(RowEditEvent event) {

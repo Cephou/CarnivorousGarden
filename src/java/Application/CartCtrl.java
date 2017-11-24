@@ -1,11 +1,14 @@
 package Application;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named(value = "cartCtrl")
@@ -19,6 +22,7 @@ public class CartCtrl implements Serializable {
     private PlantDAO plantDAO;
     private Cart currentCart;
     private List<Cart> carts;
+    FacesMessage message;
 
     /**
      * Creates a new instance of CartCtrl
@@ -64,6 +68,11 @@ public class CartCtrl implements Serializable {
         currentCart = new Cart();
         currentCart.setPlantCollection(new ArrayList<Plant>());
         carts = cartDAO.allCarts();
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Your request has been registered", "Our team will contact you soon.");
+        FacesContext.getCurrentInstance().addMessage(null, message);  
+        try{ 
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (IOException ex) {}
     }
 
     public CartDAO getCartDAO() {

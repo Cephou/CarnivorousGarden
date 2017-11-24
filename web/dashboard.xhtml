@@ -57,11 +57,6 @@
                                 <f:facet name="input"><p:inputText value="#{plant.numStock}" style="width:96%" label="Stock"/></f:facet>
                             </p:cellEditor>
                         </p:column>                        
-                        <p:column headerText="Edit">
-                            <p:commandButton update=":adminTable:plantAdminList:plantDetail" oncomplete="PF('plantDialog').show()" value="Edit" icon="fa fa-pencil" title="Edit">
-                                <f:setPropertyActionListener value="#{plant}" target="#{plantCtrl.selectedAdminPlant}" />
-                            </p:commandButton>
-                        </p:column>
                         <p:column headerText="Delete">
                             <p:commandButton icon="fa fa-times" value="Delete" action="#{plantCtrl.removePlant(plant)}" update=":adminTable:plantAdminList">
                                 <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
@@ -72,34 +67,21 @@
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </p:confirmDialog>
-                    <p:dialog header="Plant Conditions #{plantCtrl.selectedAdminPlant.genusPlant} #{plantCtrl.selectedAdminPlant.varietyPlant}" widgetVar="plantDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                        <p:outputPanel id="plantDetail" style="text-align:center;">
-                            <h:form>
-                                <p:textEditor widgetVar="editor2" value="#{plantCtrl.selectedAdminPlant.sunCondition}" height="200" style="margin-bottom:10px"/>
-                                <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade">
-                                    <p:outputPanel id="display">
-                                        <h:outputText value="#{plantCtrl.selectedAdminPlant.sunCondition}" escape="false" />
-                                    </p:outputPanel>
-                                </p:dialog>
-                                <p:commandButton action="#{plantCtrl.updateAdminPlant()}" value="Update" oncomplete="PF('plantDialog').hide()"/>
-                            </h:form>
-                        </p:outputPanel>
-                    </p:dialog>
- 
                 </h:form>
             </p:tab>
             <p:tab title="Add plant">
-                <h:form>
+                <h:form id="addPlant">
+                    <p:growl id="addmsgs" showDetail="true" life="3000" />
                     Genus :<br/>
-                    <p:inputText value="#{plantCtrl.newPlant.genusPlant}" /><br/><br/>
+                    <p:inputText value="#{plantCtrl.newPlant.genusPlant}" required="true" requiredMessage="Genus is required."/><br/><br/>
                     Specie :<br />
-                    <p:inputText value="#{plantCtrl.newPlant.speciePlant}" /><br/><br/>
+                    <p:inputText value="#{plantCtrl.newPlant.speciePlant}" required="true" requiredMessage="Specie is required." /><br/><br/>
                     Variety :<br />
                     <p:inputText value="#{plantCtrl.newPlant.varietyPlant}" /><br/><br/>
                     Price :<br />
-                    <p:inputText value="#{plantCtrl.newPlant.pricePlant}" /><br/><br/>
+                    <p:inputText value="#{plantCtrl.newPlant.pricePlant}" required="true" requiredMessage="Price is required." /><br/><br/>
                     Stock :<br />
-                    <p:inputText value="#{plantCtrl.newPlant.numStock}" /><br/><br/>
+                    <p:inputText value="#{plantCtrl.newPlant.numStock}" required="true" requiredMessage="Stock is required." /><br/><br/>
                     
                     Culture conditions :<br />
                     <p:textEditor widgetVar="editor1" value="#{plantCtrl.newPlant.sunCondition}" height="300" style="margin-bottom:10px"/>
@@ -111,7 +93,7 @@
                         </p:outputPanel>
                     </p:dialog>
                     
-                    <p:commandButton value="Create plant" action="#{plantCtrl.addPlant()}" icon="fa fa-leaf" />
+                    <p:commandButton value="Create plant" action="#{plantCtrl.addPlant()}" update="addmsgs" icon="fa fa-leaf" />
                 </h:form>
             </p:tab>
             <p:tab title="Commands">

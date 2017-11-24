@@ -1,6 +1,7 @@
 package Application;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,7 +30,8 @@ public class PlantCtrl implements Serializable {
     private List<Plant> displayPlants;
     private String selectedGenus;
     private List<Plant> plants;
-     
+    FacesMessage message = null;
+    
     public PlantCtrl() {
     }
     
@@ -78,6 +80,8 @@ public class PlantCtrl implements Serializable {
     }
     
     public void removePlant(Plant p) {
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Plant " + p.getGenusPlant() + " " + p.getSpeciePlant(), "Has been removed.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
         plantDAO.remove(p);
         displayPlants = plantDAO.allPlants();
         plants = plantDAO.allPlants();
@@ -87,7 +91,14 @@ public class PlantCtrl implements Serializable {
         plantDAO.add(this.newPlant);
         File file = new File("L:\\Laurent\\Documents\\NetBeansProjects\\CarnivorousGarden\\web\\img\\plants\\" + newPlant.getIdPlant() + "");
         file.mkdirs();
+        plants = plantDAO.allPlants();
+        try{ 
+            FacesContext.getCurrentInstance().getExternalContext().redirect("dashboard.xhtml");
+        } catch (IOException ex) {}
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Plant " + newPlant.getGenusPlant() + " " + newPlant.getSpeciePlant(), "Has been created.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
         this.newPlant = new Plant();
+        changePlantList();
     }
     
     public PlantDAO getPlantDAO() {
@@ -158,6 +169,7 @@ public class PlantCtrl implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
             plantDAO.edit(p);
+            changePlantList();
         }
     }
 }

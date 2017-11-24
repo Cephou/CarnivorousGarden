@@ -15,7 +15,7 @@
     <h:form id="cartCounter">  
         <p:growl id="messages"/>
         <p:menubar>
-            <p:menuitem value=" Index" url="index.xhtml" icon="fa fa-windows" />
+            <p:menuitem value=" Index" url="index.xhtml" icon="fa fa-pagelines" />
             <p:menuitem rendered="#{!userCtrl.userLogged}" value="Cart #{cartCtrl.numberOfItems}" onclick="PF('cartDialog').show();" icon="fa fa-shopping-cart" />
             <p:menuitem value=" Admin" url="dashboard.xhtml" icon="fa fa-key" rendered="#{userCtrl.userLogged}"/>
             <p:menuitem value=" Logout" rendered="#{userCtrl.userLogged}" action="#{userCtrl.disconnect()}" icon="fa fa-times" />

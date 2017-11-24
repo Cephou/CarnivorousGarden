@@ -16,7 +16,7 @@
         <h:outputText rendered="#{!userCtrl.userLogged}" value="You cannot access this page. Please login." />
         <p:link rendered="#{!userCtrl.userLogged}" outcome="login" value="Login" />
 
-        <p:tabView id="adminTable">
+        <p:tabView id="adminTable" rendered="#{userCtrl.userLogged}">
             <p:tab title="Plant list">        
                 <h:form id="plantAdminList">
                     <p:growl id="msgs" showDetail="true"/>

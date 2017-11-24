@@ -22,7 +22,7 @@ public class CartCtrl implements Serializable {
     private PlantDAO plantDAO;
     private Cart currentCart;
     private List<Cart> carts;
-    FacesMessage message;
+    FacesMessage message = null;
 
     /**
      * Creates a new instance of CartCtrl
@@ -67,12 +67,12 @@ public class CartCtrl implements Serializable {
         }
         currentCart = new Cart();
         currentCart.setPlantCollection(new ArrayList<Plant>());
-        carts = cartDAO.allCarts();
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Your request has been registered", "Our team will contact you soon.");
-        FacesContext.getCurrentInstance().addMessage(null, message);  
+        carts = cartDAO.allCarts(); 
         try{ 
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
         } catch (IOException ex) {}
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Your request has been registered", "Our team will contact you soon.");
+        FacesContext.getCurrentInstance().addMessage(null, message); 
     }
 
     public CartDAO getCartDAO() {

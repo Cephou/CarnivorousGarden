@@ -69,7 +69,7 @@ public class CartCtrl implements Serializable {
         currentCart.setPlantCollection(new ArrayList<Plant>());
         carts = cartDAO.allCarts(); 
         try{ 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml?cartmsg=true");
         } catch (IOException ex) {}
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Your request has been registered", "Our team will contact you soon.");
         FacesContext.getCurrentInstance().addMessage(null, message); 

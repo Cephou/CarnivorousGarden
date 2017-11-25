@@ -16,7 +16,9 @@
         <div class="main">
  
         <p:growl id="msgs" showDetail="true"/>
-
+        <h:panelGroup layout="block" style="padding: 10px; text-align: center; background: #a7ffa7" rendered="#{request.getParameter('cartmsg')}">
+            <h:outputText value="Your command has been registered, you will be contacted soon." />
+        </h:panelGroup>
         <h:form id="listPicPlants">
             <p:dataGrid var="plant" value="#{plantCtrl.displayPlants}" columns="3" layout="grid"
                rows="12" paginator="true" id="plants"
